@@ -7,7 +7,7 @@
 ## 一鍵安裝
 
 ```
-https://github.com/FR0MK3YT0E2D/SillyTavern-Midnight
+https://github.com/BoundlessEgret/SillyTavern-Midnight
 ```
 
 1. 酒館頂部列點 **Extensions**（積木圖示）→ **Install extension**
@@ -25,7 +25,7 @@ https://github.com/FR0MK3YT0E2D/SillyTavern-Midnight
 
 ```bash
 cd SillyTavern/data/default-user/extensions
-git clone https://github.com/FR0MK3YT0E2D/SillyTavern-Midnight
+git clone https://github.com/BoundlessEgret/SillyTavern-Midnight
 ```
 
 ## 設定
