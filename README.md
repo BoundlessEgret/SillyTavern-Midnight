@@ -1,4 +1,14 @@
-# Midnight（SillyTavern 現代深色皮套）v1.0.0
+<p align="center">
+  <img src="docs/banner.svg" alt="Midnight — SillyTavern 現代深色皮套" width="100%">
+</p>
+
+<p align="center">
+  <img src="https://img.shields.io/badge/SillyTavern-%E2%89%A5%201.12.0-8b7cff?style=flat-square" alt="SillyTavern ≥ 1.12.0">
+  <img src="https://img.shields.io/badge/version-1.0.0-ff7ad9?style=flat-square" alt="version 1.0.0">
+  <img src="https://img.shields.io/badge/license-MIT-2dd4bf?style=flat-square" alt="MIT License">
+</p>
+
+# <img src="docs/logo.svg" width="36" align="top" alt=""> Midnight（SillyTavern 現代深色皮套）
 
 把 SillyTavern 預設的舊式介面換成現代深色風格：深藍灰底色、細邊框、大圓角、卡片式訊息、浮動輸入框、可切換強調色。只改酒館本身的外框，**不會動到角色卡自帶的 HTML / 美化內容**。
 
