@@ -1,0 +1,739 @@
+/*
+ * Midnight — modern dark skin for SillyTavern.
+ * Everything is scoped under body.midnight so turning the extension off
+ * restores the stock UI without a reload.
+ */
+
+/* ── tokens ─────────────────────────────────────────────── */
+
+body.midnight {
+    --mn-accent: #8b7cff;
+    --mn-accent-2: color-mix(in oklab, var(--mn-accent) 70%, #ff7ad9 30%);
+    --mn-accent-soft: color-mix(in srgb, var(--mn-accent) 16%, transparent);
+    --mn-accent-ring: color-mix(in srgb, var(--mn-accent) 45%, transparent);
+
+    --mn-bg: #0b0c11;
+    --mn-surface-1: #12141b;
+    --mn-surface-2: #181b24;
+    --mn-surface-3: #20242f;
+    --mn-hover: rgba(255, 255, 255, 0.05);
+    --mn-line: rgba(255, 255, 255, 0.07);
+    --mn-line-strong: rgba(255, 255, 255, 0.12);
+
+    --mn-text: #e7e9f0;
+    --mn-text-2: #a3a8b8;
+    --mn-text-3: #6d7284;
+
+    --mn-radius-sm: 8px;
+    --mn-radius: 12px;
+    --mn-radius-lg: 18px;
+    --mn-shadow: 0 1px 0 rgba(255, 255, 255, 0.03) inset, 0 12px 32px -12px rgba(0, 0, 0, 0.6);
+    --mn-shadow-lg: 0 24px 64px -16px rgba(0, 0, 0, 0.75), 0 0 0 1px var(--mn-line);
+    --mn-ease: cubic-bezier(0.2, 0.8, 0.2, 1);
+    --mn-font: "Inter", "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", system-ui, sans-serif;
+
+    /* Re-point ST's own theme variables so every stock rule picks the palette up. */
+    --SmartThemeBodyColor: var(--mn-text);
+    --SmartThemeEmColor: var(--mn-text-2);
+    --SmartThemeUnderlineColor: color-mix(in srgb, var(--mn-accent) 60%, white 40%);
+    --SmartThemeQuoteColor: color-mix(in srgb, var(--mn-accent) 55%, white 45%);
+    --SmartThemeBlurTintColor: var(--mn-surface-1);
+    --SmartThemeChatTintColor: transparent;
+    --SmartThemeUserMesBlurTintColor: var(--mn-accent-soft);
+    --SmartThemeBotMesBlurTintColor: var(--mn-surface-1);
+    --SmartThemeShadowColor: transparent;
+    --SmartThemeBorderColor: var(--mn-line);
+    --SmartThemeBlurStrength: 18px;
+    --interactable-outline-color: var(--mn-accent);
+    --interactable-outline-color-faint: var(--mn-accent-ring);
+
+    background-color: var(--mn-bg);
+    color: var(--mn-text);
+    accent-color: var(--mn-accent);
+    -webkit-font-smoothing: antialiased;
+}
+
+body.midnight.mn-font {
+    --mainFontFamily: var(--mn-font);
+    font-family: var(--mn-font);
+}
+
+body.midnight.mn-accent-violet { --mn-accent: #8b7cff; }
+body.midnight.mn-accent-blue { --mn-accent: #5b9dff; }
+body.midnight.mn-accent-teal { --mn-accent: #2dd4bf; }
+body.midnight.mn-accent-rose { --mn-accent: #fb7185; }
+body.midnight.mn-accent-amber { --mn-accent: #f5b14c; }
+
+/* Clean backdrop: soft glow instead of the wallpaper. */
+body.midnight.mn-clean-bg #bg1,
+body.midnight.mn-clean-bg #bg_custom {
+    opacity: 0 !important;
+}
+
+body.midnight.mn-clean-bg::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    background:
+        radial-gradient(900px 600px at 15% -10%, color-mix(in srgb, var(--mn-accent) 14%, transparent), transparent 60%),
+        radial-gradient(800px 500px at 100% 110%, color-mix(in srgb, var(--mn-accent-2) 10%, transparent), transparent 60%),
+        var(--mn-bg);
+}
+
+body.midnight ::selection {
+    background: color-mix(in srgb, var(--mn-accent) 35%, transparent);
+}
+
+/* ── scrollbars ─────────────────────────────────────────── */
+
+body.midnight * {
+    scrollbar-width: thin;
+    scrollbar-color: var(--mn-surface-3) transparent;
+}
+
+body.midnight ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+}
+
+body.midnight ::-webkit-scrollbar-thumb {
+    background: var(--mn-surface-3);
+    border: 3px solid transparent;
+    background-clip: padding-box;
+    border-radius: 999px;
+}
+
+body.midnight ::-webkit-scrollbar-thumb:hover {
+    background-color: color-mix(in srgb, var(--mn-accent) 40%, var(--mn-surface-3));
+}
+
+body.midnight ::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+/* ── top bar ────────────────────────────────────────────── */
+
+body.midnight #top-bar {
+    background: color-mix(in srgb, var(--mn-bg) 72%, transparent);
+    border-bottom: 1px solid var(--mn-line);
+    box-shadow: none;
+    backdrop-filter: blur(20px) saturate(140%);
+    -webkit-backdrop-filter: blur(20px) saturate(140%);
+}
+
+body.midnight #top-settings-holder {
+    align-items: center;
+    gap: 2px;
+}
+
+body.midnight .drawer-icon {
+    font-size: calc(var(--topBarIconSize) * 0.62);
+    width: calc(var(--topBarIconSize) * 1.3);
+    height: calc(var(--topBarIconSize) * 1.1);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--mn-radius);
+    color: var(--mn-text-2);
+    transition: background-color 0.18s var(--mn-ease), color 0.18s var(--mn-ease), transform 0.18s var(--mn-ease);
+}
+
+body.midnight .drawer-icon.closedIcon {
+    opacity: 1;
+}
+
+body.midnight .drawer-icon:hover {
+    background: var(--mn-hover);
+    color: var(--mn-text);
+}
+
+body.midnight .drawer-icon:active {
+    transform: scale(0.94);
+}
+
+body.midnight .drawer-icon.openIcon {
+    color: var(--mn-accent);
+    background: var(--mn-accent-soft);
+}
+
+body.midnight #API-status-top.fa-plug-circle-exclamation {
+    color: #f59e0b;
+}
+
+/* ── panels & drawers ───────────────────────────────────── */
+
+body.midnight .drawer-content,
+body.midnight #right-nav-panel,
+body.midnight #left-nav-panel {
+    /* Opaque: backdrop-filter doesn't apply here (nested filter context). */
+    background: var(--mn-surface-1);
+    border: 1px solid var(--mn-line);
+    border-radius: var(--mn-radius-lg);
+    box-shadow: var(--mn-shadow-lg);
+    padding: 10px 12px;
+    backdrop-filter: blur(24px) saturate(140%);
+    -webkit-backdrop-filter: blur(24px) saturate(140%);
+}
+
+body.midnight .drawer-content.openDrawer {
+    top: calc(var(--topBarBlockSize) + 6px);
+}
+
+body.midnight .drawer-content h3,
+body.midnight .drawer-content h4,
+body.midnight .drawer-content h5 {
+    font-weight: 600;
+    letter-spacing: -0.01em;
+}
+
+body.midnight hr,
+body.midnight .sysHR {
+    border: 0;
+    border-top: 1px solid var(--mn-line);
+    opacity: 1;
+    background: none;
+}
+
+/* Collapsible sections (extensions, settings) as soft cards. */
+body.midnight .inline-drawer {
+    border-radius: var(--mn-radius);
+}
+
+/* Top-level extension sections only; nested drawers stay flat. */
+body.midnight :is(#extensions_settings, #extensions_settings2) .inline-drawer:not(.inline-drawer .inline-drawer) {
+    background: var(--mn-surface-2);
+    border: 1px solid var(--mn-line);
+    margin-bottom: 6px;
+}
+
+body.midnight :is(#extensions_settings, #extensions_settings2) .inline-drawer:not(.inline-drawer .inline-drawer) > .inline-drawer-header {
+    border: 0;
+    box-shadow: none;
+    background: transparent;
+}
+
+body.midnight .inline-drawer-header {
+    padding: 10px 12px;
+    border-radius: var(--mn-radius);
+    transition: background-color 0.15s var(--mn-ease);
+}
+
+body.midnight .inline-drawer-header:hover {
+    background: var(--mn-hover);
+}
+
+body.midnight .inline-drawer-content {
+    padding: 4px 12px 12px;
+}
+
+body.midnight .inline-drawer-icon {
+    filter: none;
+    color: var(--mn-text-3);
+    font-size: 1em;
+}
+
+body.midnight .standoutHeader {
+    background: transparent;
+    border: 0;
+    box-shadow: none;
+}
+
+/* ── controls ───────────────────────────────────────────── */
+
+body.midnight .menu_button,
+body.midnight .menu_button_icon {
+    background: var(--mn-surface-3);
+    color: var(--mn-text);
+    border: 1px solid var(--mn-line);
+    border-radius: var(--mn-radius-sm);
+    filter: none;
+    box-shadow: none;
+    transition: background-color 0.15s var(--mn-ease), border-color 0.15s var(--mn-ease), transform 0.12s var(--mn-ease);
+}
+
+body.midnight .menu_button:hover {
+    background: color-mix(in srgb, var(--mn-accent) 14%, var(--mn-surface-3));
+    border-color: var(--mn-accent-ring);
+    filter: none;
+}
+
+body.midnight .menu_button:active {
+    transform: translateY(1px);
+}
+
+body.midnight .menu_button.toggleable.toggled,
+body.midnight .menu_button.active,
+body.midnight .menu_button.redOverlayGlow {
+    background: var(--mn-accent-soft);
+    border-color: var(--mn-accent-ring);
+    color: var(--mn-text);
+}
+
+body.midnight .text_pole,
+body.midnight textarea:not(#send_textarea),
+body.midnight select,
+body.midnight input[type="text"],
+body.midnight input[type="number"],
+body.midnight input[type="search"],
+body.midnight input[type="password"],
+body.midnight .select2-container .select2-selection {
+    background-color: var(--mn-bg);
+    color: var(--mn-text);
+    border: 1px solid var(--mn-line-strong);
+    border-radius: var(--mn-radius-sm);
+    transition: border-color 0.15s var(--mn-ease), box-shadow 0.15s var(--mn-ease);
+}
+
+body.midnight .text_pole:hover,
+body.midnight select:hover {
+    border-color: color-mix(in srgb, var(--mn-text) 22%, transparent);
+}
+
+body.midnight .text_pole:focus,
+body.midnight textarea:not(#send_textarea):focus,
+body.midnight select:focus,
+body.midnight input:focus-visible {
+    outline: none;
+    border-color: var(--mn-accent);
+    box-shadow: 0 0 0 3px var(--mn-accent-ring);
+}
+
+body.midnight .text_pole::placeholder,
+body.midnight textarea::placeholder {
+    color: var(--mn-text-3);
+}
+
+body.midnight input[type="checkbox"] {
+    accent-color: var(--mn-accent);
+}
+
+body.midnight input[type="range"] {
+    accent-color: var(--mn-accent);
+}
+
+body.midnight .select2-dropdown,
+body.midnight .list-group,
+body.midnight .options-content {
+    background: var(--mn-surface-2);
+    border: 1px solid var(--mn-line-strong);
+    border-radius: var(--mn-radius);
+    box-shadow: var(--mn-shadow-lg);
+    overflow: hidden;
+}
+
+body.midnight .list-group-item,
+body.midnight .options-content a {
+    border-radius: var(--mn-radius-sm);
+    transition: background-color 0.12s var(--mn-ease);
+}
+
+body.midnight .list-group-item:hover,
+body.midnight .options-content a:hover {
+    background: var(--mn-hover);
+}
+
+body.midnight .select2-results__option--highlighted {
+    background: var(--mn-accent-soft) !important;
+    color: var(--mn-text) !important;
+}
+
+body.midnight a {
+    color: color-mix(in srgb, var(--mn-accent) 70%, white 30%);
+}
+
+/* ── chat ───────────────────────────────────────────────── */
+
+body.midnight #sheld {
+    background: transparent;
+}
+
+body.midnight #chat {
+    background: transparent;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    text-shadow: none;
+    padding: 12px 4px 8px;
+    gap: 10px;
+}
+
+body.midnight:not(.documentstyle) #chat .mes {
+    width: auto;
+    margin: 0 8px;
+    padding: 14px 16px 10px;
+    border-radius: var(--mn-radius-lg);
+    background: color-mix(in srgb, var(--mn-surface-1) 88%, transparent);
+    border: 1px solid var(--mn-line);
+    box-shadow: var(--mn-shadow);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    transition: border-color 0.2s var(--mn-ease);
+    animation: mn-rise 0.28s var(--mn-ease) both;
+}
+
+body.midnight:not(.documentstyle) #chat .mes:hover {
+    border-color: var(--mn-line-strong);
+}
+
+body.midnight:not(.documentstyle) #chat .mes[is_user="true"] {
+    background: linear-gradient(180deg,
+            color-mix(in srgb, var(--mn-accent) 13%, var(--mn-surface-1)),
+            color-mix(in srgb, var(--mn-accent) 7%, var(--mn-surface-1)));
+    border-color: color-mix(in srgb, var(--mn-accent) 22%, transparent);
+}
+
+body.midnight:not(.documentstyle) #chat .mes[is_system="true"] {
+    background: transparent;
+    border-style: dashed;
+    box-shadow: none;
+}
+
+body.midnight #chat .mes.selected {
+    border-color: var(--mn-accent);
+    box-shadow: 0 0 0 3px var(--mn-accent-ring);
+    background: var(--mn-accent-soft);
+}
+
+body.midnight.mn-flat:not(.documentstyle) #chat .mes {
+    background: transparent;
+    border-color: transparent;
+    box-shadow: none;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+}
+
+body.midnight.mn-flat:not(.documentstyle) #chat .mes:hover {
+    background: var(--mn-hover);
+}
+
+body.midnight.mn-flat:not(.documentstyle) #chat .mes[is_user="true"] {
+    background: transparent;
+    border-color: transparent;
+    border-left: 2px solid var(--mn-accent);
+    border-radius: 0 var(--mn-radius) var(--mn-radius) 0;
+}
+
+@keyframes mn-rise {
+    from {
+        opacity: 0;
+        transform: translateY(6px);
+    }
+}
+
+body.midnight .mes .avatar img {
+    border-radius: 12px;
+    box-shadow: 0 0 0 1px var(--mn-line-strong), 0 6px 16px -6px rgba(0, 0, 0, 0.6);
+}
+
+body.midnight .mes_block .ch_name .name_text {
+    font-weight: 650;
+    letter-spacing: -0.01em;
+    color: var(--mn-text);
+}
+
+body.midnight .mes[is_user="true"] .mes_block .ch_name .name_text {
+    color: color-mix(in srgb, var(--mn-accent) 55%, white 45%);
+}
+
+body.midnight .timestamp,
+body.midnight .mesIDDisplay,
+body.midnight .mes_timer,
+body.midnight .tokenCounterDisplay {
+    color: var(--mn-text-3);
+    font-size: 0.75em;
+    opacity: 1;
+}
+
+body.midnight .mes_text {
+    color: var(--mn-text);
+    font-weight: 400;
+    line-height: 1.7;
+}
+
+body.midnight .mes_text em,
+body.midnight .mes_text i {
+    color: var(--mn-text-2);
+}
+
+body.midnight .mes_text q,
+body.midnight .mes_text .quote {
+    color: var(--SmartThemeQuoteColor);
+}
+
+body.midnight .mes_text code {
+    background: var(--mn-bg);
+    border: 1px solid var(--mn-line);
+    border-radius: 6px;
+    padding: 1px 6px;
+}
+
+body.midnight .mes_text pre {
+    background: var(--mn-bg);
+    border: 1px solid var(--mn-line);
+    border-radius: var(--mn-radius);
+    padding: 12px;
+}
+
+body.midnight .mes_text pre code {
+    border: 0;
+    padding: 0;
+    background: transparent;
+}
+
+body.midnight .mes_text blockquote {
+    border-left: 3px solid var(--mn-accent);
+    background: var(--mn-accent-soft);
+    margin: 8px 0;
+    padding: 6px 12px;
+    border-radius: 0 var(--mn-radius-sm) var(--mn-radius-sm) 0;
+}
+
+body.midnight .mes_buttons {
+    color: var(--mn-text-3);
+}
+
+body.midnight .mes_buttons .mes_button,
+body.midnight .extraMesButtons .mes_button {
+    border-radius: 6px;
+    padding: 3px 5px;
+    transition: background-color 0.12s var(--mn-ease), color 0.12s var(--mn-ease);
+}
+
+body.midnight .mes_buttons .mes_button:hover,
+body.midnight .extraMesButtons .mes_button:hover {
+    background: var(--mn-hover);
+    color: var(--mn-text);
+}
+
+body.midnight .extraMesButtons {
+    background: var(--mn-surface-2);
+    border: 1px solid var(--mn-line);
+    border-radius: var(--mn-radius-sm);
+}
+
+body.midnight .swipe_left,
+body.midnight .swipe_right {
+    color: var(--mn-text-3);
+    transition: color 0.15s var(--mn-ease);
+}
+
+body.midnight .swipe_left:hover,
+body.midnight .swipe_right:hover {
+    color: var(--mn-accent);
+}
+
+body.midnight .mes_reasoning_details {
+    background: var(--mn-bg);
+    border: 1px solid var(--mn-line);
+    border-radius: var(--mn-radius);
+    padding: 4px 10px;
+}
+
+body.midnight .edit_textarea {
+    background: var(--mn-bg) !important;
+    border-radius: var(--mn-radius-sm);
+}
+
+/* ── composer ───────────────────────────────────────────── */
+
+body.midnight #form_sheld {
+    padding: 6px 8px 10px;
+    margin-top: 0;
+}
+
+body.midnight #send_form {
+    background: color-mix(in srgb, var(--mn-surface-2) 92%, transparent);
+    border: 1px solid var(--mn-line-strong);
+    border-radius: 20px;
+    box-shadow: 0 16px 40px -18px rgba(0, 0, 0, 0.8);
+    padding: 4px 6px;
+    backdrop-filter: blur(20px) saturate(140%);
+    -webkit-backdrop-filter: blur(20px) saturate(140%);
+    transition: border-color 0.18s var(--mn-ease), box-shadow 0.18s var(--mn-ease);
+}
+
+body.midnight #send_form:has(#send_textarea:focus-visible) {
+    border-color: var(--mn-accent-ring);
+    box-shadow: 0 0 0 4px color-mix(in srgb, var(--mn-accent) 14%, transparent), 0 16px 40px -18px rgba(0, 0, 0, 0.8);
+}
+
+body.midnight #send_form.no-connection {
+    border-color: rgba(245, 158, 11, 0.35);
+}
+
+body.midnight #send_textarea {
+    color: var(--mn-text);
+    text-shadow: none;
+    font-size: var(--mainFontSize);
+    line-height: 1.55;
+    padding: 9px 6px;
+    --progColor: var(--mn-accent);
+}
+
+body.midnight #send_textarea::placeholder {
+    color: var(--mn-text-3);
+}
+
+body.midnight #leftSendForm > div,
+body.midnight #rightSendForm > div:not(.mes_stop) {
+    font-size: calc(var(--bottomFormIconSize) * 0.62);
+    color: var(--mn-text-2);
+    border-radius: var(--mn-radius);
+    opacity: 1;
+    transition: background-color 0.15s var(--mn-ease), color 0.15s var(--mn-ease);
+}
+
+body.midnight #leftSendForm > div:hover,
+body.midnight #rightSendForm > div:hover {
+    background: var(--mn-hover);
+    color: var(--mn-text);
+    filter: none;
+}
+
+body.midnight #rightSendForm #send_but {
+    background: linear-gradient(135deg, var(--mn-accent), var(--mn-accent-2));
+    color: #fff;
+    border-radius: 14px;
+    box-shadow: 0 6px 18px -6px color-mix(in srgb, var(--mn-accent) 70%, transparent);
+}
+
+body.midnight #rightSendForm #send_but:hover {
+    filter: brightness(1.1);
+    background: linear-gradient(135deg, var(--mn-accent), var(--mn-accent-2));
+}
+
+body.midnight #mes_stop {
+    color: #fb7185;
+}
+
+body.midnight #qr--bar,
+body.midnight .qr--buttons .qr--button {
+    border-radius: var(--mn-radius-sm);
+}
+
+/* ── popups, toasts, welcome ────────────────────────────── */
+
+body.midnight .popup,
+body.midnight dialog.popup {
+    background: var(--mn-surface-1);
+    border: 1px solid var(--mn-line-strong);
+    border-radius: 20px;
+    box-shadow: var(--mn-shadow-lg);
+    padding: 12px 18px;
+}
+
+body.midnight .popup::backdrop {
+    background: rgba(5, 6, 10, 0.6);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+}
+
+body.midnight .popup .popup-controls .menu_button.popup-button-ok {
+    background: linear-gradient(135deg, var(--mn-accent), var(--mn-accent-2));
+    border-color: transparent;
+    color: #fff;
+}
+
+body.midnight #toast-container > div {
+    background-color: var(--mn-surface-2);
+    border: 1px solid var(--mn-line-strong);
+    border-radius: var(--mn-radius);
+    box-shadow: var(--mn-shadow-lg);
+    opacity: 1;
+}
+
+body.midnight .welcomePanel {
+    background: color-mix(in srgb, var(--mn-surface-1) 88%, transparent);
+    border: 1px solid var(--mn-line);
+    border-radius: var(--mn-radius-lg);
+    box-shadow: var(--mn-shadow);
+}
+
+body.midnight .welcomeRecent .recentChat {
+    border-radius: var(--mn-radius);
+    border: 1px solid var(--mn-line);
+    background: var(--mn-surface-2);
+    transition: border-color 0.15s var(--mn-ease), transform 0.15s var(--mn-ease);
+}
+
+body.midnight .welcomeRecent .recentChat:hover {
+    border-color: var(--mn-accent-ring);
+    transform: translateY(-1px);
+}
+
+/* Character list in the right panel. */
+body.midnight .character_select,
+body.midnight .group_select,
+body.midnight .bogus_folder_select {
+    border-radius: var(--mn-radius);
+    margin: 2px 0;
+    transition: background-color 0.12s var(--mn-ease);
+}
+
+body.midnight .character_select:hover,
+body.midnight .group_select:hover,
+body.midnight .bogus_folder_select:hover {
+    background: var(--mn-hover);
+}
+
+body.midnight .character_select.is_fav .avatar,
+body.midnight .avatar img {
+    border-radius: 10px;
+}
+
+body.midnight .tag {
+    border-radius: 999px;
+    border-color: var(--mn-line-strong);
+}
+
+/* ── small screens ──────────────────────────────────────── */
+
+@media screen and (max-width: 1000px) {
+    body.midnight:not(.documentstyle) #chat .mes {
+        margin: 0 4px;
+        padding: 12px 12px 8px;
+        border-radius: var(--mn-radius);
+    }
+
+    body.midnight #form_sheld {
+        padding: 4px 4px 6px;
+    }
+
+    body.midnight .drawer-content {
+        border-radius: var(--mn-radius);
+    }
+}
+
+/* ── settings panel ─────────────────────────────────────── */
+
+.midnight-settings .mn-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin: 8px 0;
+}
+
+.midnight-settings .mn-swatches {
+    display: flex;
+    gap: 8px;
+}
+
+.midnight-settings .mn-swatch {
+    width: 22px;
+    height: 22px;
+    border-radius: 999px;
+    cursor: pointer;
+    border: 2px solid transparent;
+    box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.15);
+    transition: transform 0.12s ease;
+}
+
+.midnight-settings .mn-swatch:hover {
+    transform: scale(1.12);
+}
+
+.midnight-settings .mn-swatch.selected {
+    border-color: var(--SmartThemeBodyColor);
+}

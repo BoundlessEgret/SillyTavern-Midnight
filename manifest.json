@@ -1,0 +1,14 @@
+{
+    "display_name": "Midnight — 現代深色皮套",
+    "loading_order": 100,
+    "requires": [],
+    "optional": [],
+    "dependencies": [],
+    "js": "index.js",
+    "css": "style.css",
+    "author": "FR0MK3YT0E2D",
+    "version": "1.0.0",
+    "homePage": "https://github.com/FR0MK3YT0E2D/SillyTavern-Midnight",
+    "auto_update": true,
+    "minimum_client_version": "1.12.0"
+}
