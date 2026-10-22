@@ -2,7 +2,7 @@
 
 **Midnight**（SillyTavern 現代深色皮套）v1.0.0
 
-Copyright (c) 2026 FR0MK3YT0E2D
+Copyright (c) 2026 BoundlessEgret
 
 允许任何人免费获得本软件副本及相关文档，在无限制地处置本软件的权利的前提下，授权你免费使用、复制、修改、合并、发布、分发、再授权和/或销售本软件及其副本，以及允许他人这样做，惟须符合下列条件：
 

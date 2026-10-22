@@ -49,4 +49,4 @@ Extensions 面板 → **Midnight 皮套**
 
 ## 授權
 
-[MIT License](LICENSE.md) · Copyright (c) 2026 FR0MK3YT0E2D
+[MIT License](LICENSE.md) · Copyright (c) 2026 BoundlessEgret
